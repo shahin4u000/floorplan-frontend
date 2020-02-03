@@ -5,14 +5,14 @@ import { Component } from '@angular/core';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.sass']
 })
+
+
+
 export class AppComponent {
   fileToUpload: File = null;
   title = 'floor-plan';
-  csvContent: any;
+  csvContent;
 
-  handleFileInput(files: FileList) {
-    this.fileToUpload = files.item(0);
-  }
 
 
   upload(input: HTMLInputElement) {
@@ -25,13 +25,21 @@ export class AppComponent {
       const fileToRead = files[0];
 
       const fileReader = new FileReader();
+
       fileReader.onload = (event) => {
-        let fileContent = (event.target as FileReader).result;
-        console.log(fileContent)
+        const result = fileReader.result;
+        if (typeof result !== "string") {
+          throw new Error("Unexpected result from FileReader");
       }
+      this.csvContent = result.split('\n').map((data) => {
+        return data.split(',')
+      })
 
-      fileReader.readAsText(fileToRead, "UTF-8");
-    }
+      console.log(this.csvContent)
+    };
 
+    fileReader.readAsText(fileToRead, "UTF-8");
   }
+
+}
 }
