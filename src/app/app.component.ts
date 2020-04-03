@@ -11,6 +11,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   fileToUpload: File = null;
   title = 'floor-plan';
+  fileName:string = "choose file";
   csvContent;
 
 

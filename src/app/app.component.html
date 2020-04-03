@@ -1,29 +1,48 @@
-<nav class="navbar navbar-light bg-light">
-  <a class="navbar-brand" href="#">
+<nav class="navbar navbar-lightbg-primary bg-info ">
+  <a class="navbar-brand " href="#">
     <img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top"
       alt="">
     Floor Plan
   </a>
 </nav>
 
-<div class="card m-5">
-  <div class="row row-5">
-    <div class="col-4">
-      <div class="input-group">
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="upload($event.target)">
-          <label class="custom-file-label" for="inputGroupFile04">Choose file</label>
+<div class="container ">
+  <div class="row mt-5 mb-2 ">
+    <div class="col-md-12 col-lg-3  ">
+      <div class="card fixedWidth">
+        <div class="card-header">
+          Upload your scan result
         </div>
-        <div class="input-group-append">
-          <button class="btn btn-outline-secondary" type="button" class="btn btn-primary btn-sm">Upload </button>
+        <div class="card-body">
+          <div class="input-group">
+            <div class="custom-file">
+              <input type="file" class="custom-file-input" id="inputGroupFile04" (change)="upload($event.target)">
+              <label class="custom-file-label" for="inputGroupFile04">{{fileName}}</label>
+            </div>
+
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-8 border border-primary" >
-      {{csvContent}}
-      
-    </div>
+    <div class="col border ml-2">
 
+    </div>
+  </div>
+
+  <div class="row row-5">
+    <div class="col-3">
+
+      <div class="card">
+        <div class="card-header">
+          Here is your scann result
+        </div>
+        <div class="card-body">
+          <div class="overflow-scroll">
+            {{csvContent}}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
