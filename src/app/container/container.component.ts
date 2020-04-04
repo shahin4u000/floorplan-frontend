@@ -47,7 +47,6 @@ export class ContainerComponent implements OnInit {
 
   createFloorPlan() {
 
-    console.log("ContainerComponent -> createFloorPlan -> this.csvContent", this.scanData)
   }
 
   p2c(r, degree) {

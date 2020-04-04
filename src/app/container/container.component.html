@@ -1,5 +1,5 @@
-<div class="row mt-5 mb-2 ">
-  <div class="col-md-12 col-lg-4  ">
+<div class="row mt-5">
+  <div class="col-md-12 col-lg-4 mb-2 ">
     <div class="card fixedWidth">
       <div class="card-header">
         Upload your scan result
@@ -22,6 +22,10 @@
         <button [disabled]="!csvContent" class="btn btn-primary mt-2" (click)="createFloorPlan()">Floor plan</button>
       </div>
     </div>
+  </div>
+
+  <div class="col-md-12 col-lg-8 border mb-2">
+      <app-plotting [data]="this.scanData"></app-plotting>
   </div>
 </div>
 
