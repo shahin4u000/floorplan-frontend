@@ -21,11 +21,13 @@ import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
 import { ContainerComponent } from './container/container.component';
+import { PlottingComponent } from './plotting/plotting.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ContainerComponent
+    ContainerComponent,
+    PlottingComponent
   ],
   imports: [
     BrowserModule,

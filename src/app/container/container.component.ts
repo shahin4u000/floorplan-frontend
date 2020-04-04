@@ -13,18 +13,19 @@ export class ContainerComponent implements OnInit {
   x: number[] = [];
   y: number[] = [];
   scanData: any = [];
-  constructor() {}
-  ngOnInit(): void {
-    throw new Error("Method not implemented.");
+  constructor() { }
+
+  ngOnInit() {
   }
 
   upload(input: HTMLInputElement) {
     const files = input.files;
     var content = this.csvContent;
+    const fileToRead = files[0];
 
-    if (files && files.length) {
-      const fileToRead = files[0];
+    if (fileToRead.type === "text/csv" ) {
       this.fileName = fileToRead.name;
+      
       const fileReader = new FileReader();
 
       fileReader.onload = event => {
@@ -34,16 +35,19 @@ export class ContainerComponent implements OnInit {
         }
         this.csvContent = result.split("\n").map(data => {
           let [a, b] = data.split(",");
-          this.scanData.push(this.p2c(parseFloat(a), parseFloat(b)));
+          this.scanData.push(this.p2c(parseFloat(b), parseFloat(a)));
         });
       };
 
       fileReader.readAsText(fileToRead, "UTF-8");
+    } else {
+      this.fileName = " unknow file type. csv only"
     }
   }
 
   createFloorPlan() {
-    console.log("hi: ",this.scanData);
+
+    console.log("ContainerComponent -> createFloorPlan -> this.csvContent", this.scanData)
   }
 
   p2c(r, degree) {
