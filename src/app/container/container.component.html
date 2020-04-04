@@ -1,0 +1,41 @@
+<div class="row mt-5 mb-2 ">
+  <div class="col-md-12 col-lg-4  ">
+    <div class="card fixedWidth">
+      <div class="card-header">
+        Upload your scan result
+      </div>
+      <div class="card-body">
+        <div class="input-group">
+          <div class="custom-file">
+            <input
+              type="file"
+              class="custom-file-input inputFile"
+              id="inputGroupFile04"
+              (change)="upload($event.target)"
+            />
+            <label class="custom-file-label" for="inputGroupFile04">{{
+              fileName
+            }}</label>
+          </div>
+        </div>
+
+        <button [disabled]="!csvContent" class="btn btn-primary mt-2" (click)="createFloorPlan()">Floor plan</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="row row-5">
+  <div class="col-3">
+    <div class="card">
+      <div class="card-header">
+        Here is your scann result
+      </div>
+      <div class="card-body">
+        <div class="overflow-scroll">
+          {{ csvContent }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

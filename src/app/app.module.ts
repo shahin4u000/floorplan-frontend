@@ -20,10 +20,12 @@ import { SortableModule } from 'ngx-bootstrap/sortable';
 import { TabsModule } from 'ngx-bootstrap/tabs';
 import { TimepickerModule } from 'ngx-bootstrap/timepicker';
 import { TooltipModule } from 'ngx-bootstrap/tooltip';
+import { ContainerComponent } from './container/container.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ContainerComponent
   ],
   imports: [
     BrowserModule,
