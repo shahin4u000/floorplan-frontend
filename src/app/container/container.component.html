@@ -1,33 +1,42 @@
 <div class="row mt-5">
-  <div class="col-md-12 col-lg-4 mb-2 ">
-    <div class="card ">
+  <div class="col-md-12 col-lg-4 mb-2">
+    <div class="card">
       <div class="card-header">
         Upload your scan result
       </div>
       <div class="card-body">
         <div class="input-group">
           <div class="custom-file">
-            <input type="file" class="custom-file-input inputFile" id="inputGroupFile04"
-              (change)="upload($event.target)" />
+            <input
+              type="file"
+              class="custom-file-input inputFile"
+              id="inputGroupFile04"
+              (change)="upload($event.target)"
+            />
             <label class="custom-file-label" for="inputGroupFile04">{{
               fileName
             }}</label>
           </div>
         </div>
 
-        <button [disabled]="!csvContent" class="btn btn-primary mt-2" (click)="createFloorPlan()">Floor plan</button>
+        <button
+          [disabled]="!csvContent"
+          class="btn btn-primary mt-2"
+          (click)="createFloorPlan()"
+        >
+          Floor plan
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="col-md-12 col-lg-7 " style="min-height: 300px;">
+  <div class="col-md-12 col-lg-7" style="min-height: 300px;" #plotting>
     <div class="card fixedWidth">
       <div class="card-header">
         Draw here
       </div>
-      <div class="card-body">
-        <plotting [data]="this.scanData"></plotting>
-
+      <div class="card-body" *ngIf="response">
+        <plotting [PlotData]="response "></plotting>
       </div>
     </div>
   </div>

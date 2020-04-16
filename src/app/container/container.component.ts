@@ -1,4 +1,7 @@
+import { PlotData } from './../plotting/plotting.component';
+import { BokehService } from './../service/bokeh.service';
 import { Component, OnInit } from "@angular/core";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: "container",
@@ -13,19 +16,23 @@ export class ContainerComponent implements OnInit {
   x: number[] = [];
   y: number[] = [];
   scanData: any = [];
-  constructor() { }
+  response;
+  constructor(private bokehService: BokehService) {
+
+  }
 
   ngOnInit() {
   }
 
   upload(input: HTMLInputElement) {
     const files = input.files;
-    var content = this.csvContent;
-    const fileToRead = files[0];
 
-    if (fileToRead.type === "text/csv" ) {
+    const fileToRead = files[0];
+    // fileToRead.type === "text/csv"
+    if (true) {
+
       this.fileName = fileToRead.name;
-      
+
       const fileReader = new FileReader();
 
       fileReader.onload = event => {
@@ -46,6 +53,9 @@ export class ContainerComponent implements OnInit {
   }
 
   createFloorPlan() {
+    this.bokehService.getBokeh({ "hi": "hello" }).subscribe((d)=>{
+      this.response = d;
+    })
 
   }
 

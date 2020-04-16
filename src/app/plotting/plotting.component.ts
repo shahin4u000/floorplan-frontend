@@ -1,50 +1,108 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, ViewEncapsulation, OnChanges } from "@angular/core";
+import { Component, OnInit, ElementRef, Input, ViewEncapsulation, OnChanges, ViewChildren, ViewChild, AfterViewInit } from "@angular/core";
 import * as d3 from "d3";
+import { Observable } from 'rxjs';
+
+export interface PlotData {
+  container: string;
+  script: string;
+}
+
 
 @Component({
   selector: "plotting",
   templateUrl: "./plotting.component.html",
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ["./plotting.component.scss"]
 })
-export class PlottingComponent implements OnInit, OnChanges {
-  @ViewChild("chart", { static: true })
-  private chartContainer: ElementRef;
-  @Input() data: Array<Object>;
-  margin = { top: 20, right: 20, bottom: 30, left: 40 };
+export class PlottingComponent implements OnInit, AfterViewInit {
+  is3D = false;
+  private bokehDocumentId: string = null;
+  private bokehDocumentObject: any = null;
+  private findBokehDocumentInterval: any = null;
+  private _plotData:any;
+  @ViewChild('node', { static: false }) node: ElementRef<HTMLDivElement>
+  @Input()
+  set PlotData(plotData) {
+    this._plotData = plotData;
+  }
 
   constructor() { }
 
-  ngOnInit() {
-    this.data
-    console.log("PlottingComponent -> ngOnInit -> this.data", this.data)
+  ngAfterViewInit() {
+    console.log("hi")
+    this.update(this._plotData);
   }
 
-  ngOnChanges(): void {
-    if (!this.data) {
+
+  ngOnInit() {
+
+  }
+  update(plotData: PlotData) {
+    if (!plotData) {
+      this.clearPlot();
       return;
     }
-    this.floorPlan()
-    //this.createChart();
+    this.is3D = false;
+    const scriptElement = document.createElement('script');
+    scriptElement.type = 'text/javascript';
+    // scriptElement.innerHTML = this.getContentOfScriptTag(plotData.script);
+
+    const cleanedInnerHTML = plotData.script.replace("<script type=\"text/javascript\">", "").replace("</script>", "")
+    scriptElement.innerHTML = this.getContentOfScriptTag(cleanedInnerHTML);
+
+    const element = this.node.nativeElement;
+    console.log("PlottingComponent -> update -> element", element)
+    element.innerHTML = plotData.container;
+    const bokehDiv = element.getElementsByClassName('bk-root').item(0);
+    this.bokehDocumentId = bokehDiv.getAttribute('data-root-id');
+
+    element.appendChild(scriptElement);
+    clearInterval(this.findBokehDocumentInterval);
+    this.bokehDocumentObject = null;
+    this.findBokehDocumentInterval = setInterval(this.findBokehDocumentObject, 100);
+
   }
 
-  onResize() {
-    //this.createChart();
+  private findBokehDocumentObject = () => {
+    let doc = null;
+    const bokeh = window['Bokeh'];
+    bokeh.documents.forEach((document: any) => {
+      if (!document['_roots']) {
+        return false;
+      }
+      const roots = document['_roots'];
+
+      if (!roots[0]) {
+        return false;
+      }
+      const row = roots[0];
+
+      if (row['attributes']['id'] !== this.bokehDocumentId) {
+        return false;
+      }
+
+      doc = document;
+      return true;
+    });
+    if (!doc) {
+      return;
+    }
+
+    this.bokehDocumentObject = doc;
+    //this.documentInitialized.emit(true);
+    clearInterval(this.findBokehDocumentInterval);
+    //this.findRangeModels();
+    //this.detectIs3D();
+    //this.findAjaxDataSources();
+  };
+  private clearPlot() {
+    const element = this.node.nativeElement;
+    element.innerHTML = '';
   }
-
-  private floorPlan() {
-    const element = this.chartContainer.nativeElement;
-    const svg = d3
-      .select(element)
-      .append("svg")
-      // Append a new SVG element to our container using the same width and height
-      .attr("width",500)
-      .attr("height",500)
-      .style("color","red")
-
+  private getContentOfScriptTag(script: string) {
+    let result = script.replace('<script type="text/javascript">', '');
+    result = result.replace('</script>', '');
+    return result;
   }
-
-
 }
 
 
