@@ -13,9 +13,7 @@ export class ContainerComponent implements OnInit {
   title = "floor-plan";
   fileName: string = "choose file";
   csvContent: any;
-  x: number[] = [];
-  y: number[] = [];
-  scanData: any = [];
+
   response;
   constructor(private bokehService: BokehService) {
 
@@ -25,9 +23,38 @@ export class ContainerComponent implements OnInit {
   }
 
   upload(input: HTMLInputElement) {
-    const files = input.files;
+    const files = input.files[0];
+    if (files.type === "text/csv") {
+      this.fileName = files.name;
+      this.csvContent = files;
+    } else {
+      this.fileName = " unknow file type. csv only"
+    }
 
-    const fileToRead = files[0];
+  }
+
+  createFloorPlan() {
+    if (!this.csvContent) return
+
+    let request = new FormData()
+    request.append("data", this.csvContent)
+    this.bokehService.getBokeh(request).subscribe((d) => {
+      this.response = d;
+    })
+
+  }
+
+  p2c(r, degree) {
+    let theta = (degree * Math.PI) / 180;
+    return {
+      x: r * Math.cos(theta),
+      y: r * Math.sin(theta)
+    };
+  }
+}
+
+
+/*
     // fileToRead.type === "text/csv"
     if (true) {
 
@@ -47,23 +74,4 @@ export class ContainerComponent implements OnInit {
       };
 
       fileReader.readAsText(fileToRead, "UTF-8");
-    } else {
-      this.fileName = " unknow file type. csv only"
-    }
-  }
-
-  createFloorPlan() {
-    this.bokehService.getBokeh({ "hi": "hello" }).subscribe((d)=>{
-      this.response = d;
-    })
-
-  }
-
-  p2c(r, degree) {
-    let theta = (degree * Math.PI) / 180;
-    return {
-      x: r * Math.cos(theta),
-      y: r * Math.sin(theta)
-    };
-  }
-}
+    }  */
