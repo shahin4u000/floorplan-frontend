@@ -18,18 +18,19 @@ export class PlottingComponent implements OnInit, AfterViewInit {
   private bokehDocumentId: string = null;
   private bokehDocumentObject: any = null;
   private findBokehDocumentInterval: any = null;
-  private _plotData:any;
-  @ViewChild('node', { static: false }) node: ElementRef<HTMLDivElement>
+  private _plotData: any;
+  @ViewChild('node', { static: true }) node: ElementRef<HTMLDivElement>
   @Input()
   set PlotData(plotData) {
     this._plotData = plotData;
+
+    this.update(this._plotData);
   }
 
   constructor() { }
 
   ngAfterViewInit() {
     console.log("hi")
-    this.update(this._plotData);
   }
 
 
