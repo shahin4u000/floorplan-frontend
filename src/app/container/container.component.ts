@@ -1,6 +1,6 @@
 import { PlotData } from './../plotting/plotting.component';
 import { BokehService } from './../service/bokeh.service';
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from "@angular/core";
 import { Observable } from 'rxjs';
 
 @Component({
@@ -8,18 +8,26 @@ import { Observable } from 'rxjs';
   templateUrl: "./container.component.html",
   styleUrls: ["./container.component.scss"]
 })
-export class ContainerComponent implements OnInit {
+export class ContainerComponent implements OnInit, AfterViewInit {
+  @ViewChild("plottingContainer", { static: false }) plottingContainer: ElementRef;
   fileToUpload: File = null;
   title = "floor-plan";
   fileName: string = "choose file";
   csvContent: any;
-
+  width: any;
   response;
+  isLoading: boolean = false;
   constructor(private bokehService: BokehService) {
+
+
 
   }
 
   ngOnInit() {
+  }
+  ngAfterViewInit() {
+    this.width =
+      this.plottingContainer.nativeElement.offsetWidth;
   }
 
   upload(input: HTMLInputElement) {
@@ -36,10 +44,14 @@ export class ContainerComponent implements OnInit {
   createFloorPlan() {
     if (!this.csvContent) return
 
-    let request = new FormData()
-    request.append("data", this.csvContent)
+    this.isLoading = true
+    let request = new FormData();
+    request.append("data", this.csvContent);
+    request.append("width", this.width);
+    console.log("ContainerComponent -> createFloorPlan -> this.width", this.width)
     this.bokehService.getBokeh(request).subscribe((d) => {
       this.response = d;
+      this.isLoading = false;
     })
 
   }

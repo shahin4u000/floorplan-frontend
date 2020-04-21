@@ -1,10 +1,23 @@
 .custom-file {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: auto;
 }
 
 .col-md-6 {
-    min-width: 500px;
+  min-width: 500px;
+}
+
+.plotting {
+  min-height: 400px;
+}
+
+.disablePlotting {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.loading-height {
+  height: 10px;
 }

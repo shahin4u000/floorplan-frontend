@@ -1,7 +1,7 @@
 <div class="row mt-5">
   <div class="col-md-12 col-lg-4 mb-2">
     <div class="card">
-      <div class="card-header">
+      <div class="card-header bg-secondary text-white">
         Upload your scan result
       </div>
       <div class="card-body">
@@ -32,11 +32,21 @@
 
   <div class="col-md-12 col-lg-7" style="min-height: 300px;" #plotting>
     <div class="card fixedWidth">
-      <div class="card-header">
+      <div class="card-header bg-secondary text-white">
         Draw here
       </div>
-      <div class="card-body" *ngIf="response">
-        <plotting [PlotData]="response "></plotting>
+      <div class="progress loading-height" *ngIf="isLoading">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated bg-danger "
+          role="progressbar"
+          aria-valuenow="100"
+          style="width: 100%"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        ></div>
+      </div>
+      <div class="card-body plotting" #plottingContainer [ngClass]="isLoading? 'disablePlotting': ''">
+        <plotting [PlotData]="response"></plotting>
       </div>
     </div>
   </div>

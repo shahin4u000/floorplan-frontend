@@ -13,7 +13,7 @@ export interface PlotData {
   templateUrl: "./plotting.component.html",
   styleUrls: ["./plotting.component.scss"]
 })
-export class PlottingComponent implements OnInit, AfterViewInit {
+export class PlottingComponent implements OnInit {
   is3D = false;
   private bokehDocumentId: string = null;
   private bokehDocumentObject: any = null;
@@ -23,16 +23,10 @@ export class PlottingComponent implements OnInit, AfterViewInit {
   @Input()
   set PlotData(plotData) {
     this._plotData = plotData;
-
     this.update(this._plotData);
   }
 
   constructor() { }
-
-  ngAfterViewInit() {
-    console.log("hi")
-  }
-
 
   ngOnInit() {
 
@@ -90,7 +84,7 @@ export class PlottingComponent implements OnInit, AfterViewInit {
 
     this.bokehDocumentObject = doc;
     //this.documentInitialized.emit(true);
-    clearInterval(this.findBokehDocumentInterval);
+    //clearInterval(this.findBokehDocumentInterval);
     //this.findRangeModels();
     //this.detectIs3D();
     //this.findAjaxDataSources();
